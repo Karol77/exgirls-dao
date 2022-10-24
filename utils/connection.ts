@@ -29,16 +29,13 @@ export interface ConnectionContext {
 
 export function getConnectionContext(cluster: string): ConnectionContext {
   const ENDPOINT = ENDPOINTS.find((e) => e.name === cluster) || ENDPOINTS[0]
-  const commitment: Commitment = 'processed'
   return {
     cluster: ENDPOINT!.name as EndpointTypes,
-    current: new Connection('https://rpc-mainnet-fork.epochs.studio', {
-      commitment,
-      wsEndpoint: 'wss://rpc-mainnet-fork.epochs.studio/ws',
-    }),
+    current: new Connection(ENDPOINT!.url, 'recent'),
     endpoint: ENDPOINT!.url,
   }
 }
+
 
 /**
  * Given ConnectionContext, find the network.
