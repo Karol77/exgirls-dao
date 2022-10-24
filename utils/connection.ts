@@ -7,7 +7,7 @@ const ENDPOINTS: EndpointInfo[] = [
     name: 'mainnet',
     url:
       process.env.MAINNET_RPC ||
-      'https://rpc-mainnet-fork.epochs.studio',
+      'https://solana-api.projectserum.com',
   },
   {
     name: 'devnet',
