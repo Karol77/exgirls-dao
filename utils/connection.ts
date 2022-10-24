@@ -7,7 +7,7 @@ const ENDPOINTS: EndpointInfo[] = [
     name: 'mainnet',
     url:
       process.env.MAINNET_RPC ||
-      'http://realms-realms-c335.mainnet.rpcpool.com/258d3727-bb96-409d-abea-0b1b4c48af29/',
+      'https://rpc-mainnet-fork.epochs.studio',
   },
   {
     name: 'devnet',
@@ -29,9 +29,13 @@ export interface ConnectionContext {
 
 export function getConnectionContext(cluster: string): ConnectionContext {
   const ENDPOINT = ENDPOINTS.find((e) => e.name === cluster) || ENDPOINTS[0]
+  const commitment: Commitment = 'processed'
   return {
     cluster: ENDPOINT!.name as EndpointTypes,
-    current: new Connection(ENDPOINT!.url, 'recent'),
+    current: new Connection('https://rpc-mainnet-fork.epochs.studio', {
+      commitment,
+      wsEndpoint: 'wss://rpc-mainnet-fork.epochs.studio/ws',
+    }),
     endpoint: ENDPOINT!.url,
   }
 }
