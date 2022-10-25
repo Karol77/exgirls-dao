@@ -2,12 +2,13 @@
   {
     "symbol": "XGIRLS",
     "displayName": "Ex Girl",
+    "bannerImage": "/realms/Ukraine/img/ex_logo.png",
     "programId": "GovER5Lthms3bLBqWub97yVrMmEogzX7xNjdXpPPCVZw",
     "realmId": "Gc5ZgPLRYiJSwNMxbfpwPJRwvtt9sdQgBZQRjzjrVUsk",
     "website": "https://insydin.io/",
     "shortDescription": "111 Unique And Fully Original Limited Edition Collection Ex Girls Are Here On Solana Powered By Insydin",
     "keywords": "111 Unique And Fully Original Limited Edition Collection Ex Girls Are Here On Solana Powered By Insydin",
-    "ogImage": "/realms/Ukraine/img/ex_logo.png",
+    "ogImage": "https://svgshare.com/i/ndg.svg",
     "sharedWalletId": "66pJhhESDjdeBBDdkKmxYYd7q6GUggYPWjxpMKNX39KV",
     "sortRank": 3
   },
