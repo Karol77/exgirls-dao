@@ -1,7 +1,11 @@
 # EX GIRL'S DAO
 
-Official solana documents were used in our project. It has been audited many times.
-Created by ChainMasterX
+- Official solana documents were used in our project. It has been audited many times.
+- Decentralization <3
+- Created by ChainMasterX
+
+![20220509_191517](https://user-images.githubusercontent.com/34295148/197942205-ec8b7e05-3871-4246-b177-5a661a49c1fb.png)
+
 
 ## Working on governance-ui
 
