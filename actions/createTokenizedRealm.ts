@@ -1,14 +1,13 @@
 import { Connection, PublicKey } from '@solana/web3.js'
-
 import {
-  sendTransactionsV2,
-  transactionInstructionsToTypedInstructionsSets,
   SequenceType,
   WalletSigner,
+  txBatchesToInstructionSetWithSigners,
+  sendTransactionsV3,
 } from 'utils/sendTransactions'
 import { chunks } from '@utils/helpers'
-
 import { prepareRealmCreation } from '@tools/governance/prepareRealmCreation'
+import { trySentryLog } from '@utils/logs'
 
 interface TokenizedRealm {
   connection: Connection
@@ -91,25 +90,42 @@ export default async function createTokenizedRealm({
       []
     )
     console.log('CREATE GOV TOKEN REALM: sending transactions')
-    const tx = await sendTransactionsV2({
+
+    const signers = [
+      mintsSetupSigners,
+      ...councilMembersSignersChunks,
+      realmSigners,
+    ]
+    const txes = [
+      mintsSetupInstructions,
+      ...councilMembersChunks,
+      realmInstructions,
+    ].map((txBatch, batchIdx) => {
+      return {
+        instructionsSet: txBatchesToInstructionSetWithSigners(
+          txBatch,
+          signers,
+          batchIdx
+        ),
+        sequenceType: SequenceType.Sequential,
+      }
+    })
+
+    const tx = await sendTransactionsV3({
       connection,
-      showUiComponent: true,
       wallet,
-      signersSet: [
-        mintsSetupSigners,
-        ...councilMembersSignersChunks,
-        realmSigners,
-      ],
-      TransactionInstructions: [
-        mintsSetupInstructions,
-        ...councilMembersChunks,
-        realmInstructions,
-      ].map((x) =>
-        transactionInstructionsToTypedInstructionsSets(
-          x,
-          SequenceType.Sequential
-        )
-      ),
+      transactionInstructions: txes,
+    })
+
+    const logInfo = {
+      realmId: realmPk,
+      realmSymbol: realmName,
+      wallet: wallet.publicKey?.toBase58(),
+      cluster: connection.rpcEndpoint.includes('devnet') ? 'devnet' : 'mainnet',
+    }
+    trySentryLog({
+      tag: 'realmCreated',
+      objToStringify: logInfo,
     })
 
     return {
